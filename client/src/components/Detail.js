@@ -121,4 +121,3 @@ export default function Detail(props){
     </div>
     )
 }
-//export default Detail;
