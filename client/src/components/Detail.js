@@ -1,4 +1,6 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
+import ListAdd from './ListAdd';
 import Main from './Main'
 import {
   BrowserRouter as Router,
@@ -23,7 +25,14 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { BottomNavigation } from '@material-ui/core';
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
+import Counter from '../counter';
 
+const back = { 
+  color: ' white',
+  marginTop: 5,
+  marginLeft: 10,
+}
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -34,19 +43,34 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.secondary,
     },
     paper: {
-      
-      margin: 'auto',
-      maxWidth: 414,
-      textAlign:'center'
+      margin: '10px auto',
+      width: '100%',
+      height : '130px'
+    },
+    name : {
+      width : '100%',
+      height : '30px',
+      fontSize : '20px',
+      margin : '10px 20px 5px',
+      color : '#666666'
+    },
+    price : {
+      width : '100px',
+      height : '30px',
+      fontSize : '20px',
+      margin : '0px 20px',
+      fontWeight : 'bold',
+      color : 'gray'
     },
     title: {
       flexGrow: 1,
     },
     image: {
-      margin: 'auto',
-      width: 200 ,
-      height: 200,
-      textAlign:'center'
+      margin: '0px auto',
+      width: '100%',
+      height: '280px',
+      textAlign:'center',
+      backgroundColor : 'white'
     },
     img: {
       margin: 'auto',
@@ -60,8 +84,24 @@ const useStyles = makeStyles((theme) => ({
     add:{
       position:"fixed",
       marginTop:230,
-      marginLeft:190
-    }
+      
+    },
+    numberbar : {
+      width : '65px',
+      height : '20px',
+      margin : '5px 0px',
+      color : '#666666',
+      border : '1px solid',
+      borderRadius : '20px'
+  
+  },
+  countbox : {
+    width : '100px',
+    height : '30px',
+    margin : '20px 20px',
+  }
+ 
+
 }));
 
 
@@ -75,49 +115,39 @@ export default function Detail(props){
     }
     return(      
       
-      <div className={classes.root}>     
+      <div>     
 
       <AppBar position="static" >
         <Toolbar >
+          
+          
           <IconButton edge="start" className={classes.menuButton}  color="inherit" aria-label="menu">
-           <Link to="/"> <MenuIcon /></Link>
+          <Link to="/"> <ArrowBackIosRoundedIcon style={back}  /></Link>
           </IconButton>
           <Typography variant="h6" className={classes.title} onClick={()=>{
             console.log(props.name);
           }}>
-            {props.name}
+            
           </Typography>
           
         </Toolbar>
       </AppBar>
+      
+      <div className={classes.image}>
+      <img className={classes.img} alt="complex" src={props.img} /> 
+      </div>
 
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-          <ButtonBase className={classes.image}>
-              <img className={classes.img} alt="complex" src={props.img} />
-          </ButtonBase>
-            
-          </Paper>
-        </Grid>
-        <Grid item xs={12} boxShadow={0}>
-          <Paper className={classes.paper}>{props.name}</Paper>
-        </Grid>
-          
-        <Grid item xs={6}>
-          <Paper className={classes.paper}>수량 : {props.number}</Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper className={classes.paper}>0</Paper>
-        </Grid>
-        <Grid item xs={12} boxShadow={0}>
-          <Paper className={classes.paper}>설명</Paper>
-        </Grid>
+      <Paper className= {classes.paper}>  
+      <div className={classes.name}>{props.name}</div>
+      <div className={classes.price}>{props.price} 원</div>
+      <div className={classes.countbox}>
+        <div className={classes.numberbar}><Counter/></div>
+      </div>
+      </Paper>
         
-      </Grid>
-      <Fab color="primary" aria-label="add" className={classes.add}>
-        <AddIcon />
-      </Fab>
+    
+      <ListAdd stateRefresh={props.stateRefresh} id={props.id}></ListAdd>
+      
     </div>
     )
 }
