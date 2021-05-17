@@ -29,6 +29,8 @@ import Navi from './components/Navi';
 
 import List from './components/List';
 import ListApp from './ListApp';
+import LoginApp from './LoginApp';
+import Register from './components/Register';
 
 import {
   BrowserRouter as Router,
@@ -37,6 +39,7 @@ import {
   Link,
 }from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import Login from './components/Login';
 
 const styles = theme => ({
   root : {
@@ -149,7 +152,8 @@ class App extends Component {
       name:'',
       img:'',
       price:'',
-      id : ''
+      id : '',
+      number : ''
     }
   }
 
@@ -205,7 +209,7 @@ class App extends Component {
       });
       return data.map((c) => {
         return  < Link to={`/detail/${c.p_name}`} onClick={()=>{
-          this.state.name = c.p_name; this.state.img=c.image; this.state.price=c.price; this.state.id = c.barcode;
+          this.state.name = c.p_name; this.state.img=c.image; this.state.price=c.price; this.state.id = c.barcode; this.state.number = c.number;
         }}><Main stateRefresh={this.stateRefresh} key={c.p_name} p_name={c.p_name}  image={c.image} price={c.price}/></Link>
       });
     }
@@ -356,7 +360,7 @@ class App extends Component {
             
             </TableBody>
           </Table>            
-        </Paper>
+      </Paper>
       
        
         </Route>
@@ -364,20 +368,25 @@ class App extends Component {
           <Navi/>
         </Route>
         <Route path ="/login">
-         
+              <LoginApp/>
         </Route>
+
+        <Route path ="/register">
+              <Register/>
+        </Route>
+
+
         <Route path ="/basket">
               <Basket/>
         </Route>
 
         <Route exact path={`/detail/${this.state.name}`} 
         render={props=><Route.Component {...props} name={this.state.name}/>}>
-          <Detail name={this.state.name} img={this.state.img} price={this.state.price} stateRefresh={this.stateRefresh} id={this.state.id}/>
+          <Detail name={this.state.name} img={this.state.img} price={this.state.price} number={this.state.number} stateRefresh={this.stateRefresh} id={this.state.id}/>
         </Route>
 
         <Route exact path="/ListApp">
           <ListApp/></Route>
-         
         </Router>
     </div>
   

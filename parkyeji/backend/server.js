@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.get("/api/create-table", (req, res) => {
   connection.query(
-    `create table registration (
+    `create table users (
     ID varchar(20) not null,
     password varchar(20) not null, 
     phone varchar(20) not null, 
@@ -41,7 +41,7 @@ app.get("/api/create-table", (req, res) => {
 
 // 테이블 전체 데이터 보기
 app.get("/api/all", (req, res) => {
-  connection.query("SELECT * FROM registration ", (err, rows, fields) => {
+  connection.query("SELECT * FROM users ", (err, rows, fields) => {
     res.send(rows);
   });
 });
@@ -49,7 +49,7 @@ app.get("/api/all", (req, res) => {
 // 아이디 중복 체크
 app.get("/api/check-duplicate", (req, res) => {
   connection.query(
-    `SELECT * FROM registration WHERE ID = ${req.query.id};`,
+    `SELECT * FROM users WHERE ID = ${req.query.id};`,
     (err, rows, fields) => {
       if (rows.length === 0) {
         res.send(false);
@@ -61,9 +61,9 @@ app.get("/api/check-duplicate", (req, res) => {
 });
 
 // 회원가입
-app.post("/api/registration", (req, res) => {
+app.post("/api/users", (req, res) => {
   const { id, password, phone, postcode, address, birthday } = req.body;
-  let sql = `INSERT INTO registration(ID, password, phone, postcode, address, birthday) VALUES ('${id}', '${password}', '${phone}', '${postcode}', '${address}', '${birthday}');`;
+  let sql = `INSERT INTO users(ID, password, phone, postcode, address, birthday) VALUES ('${id}', '${password}', '${phone}', '${postcode}', '${address}', '${birthday}');`;
 
   connection.query(sql, (err, rows, fields) => {
     res.send({ err, rows });
@@ -74,7 +74,7 @@ app.post("/api/registration", (req, res) => {
 app.post("/api/login", (req, res) => {
   const { id, password } = req.body;
   connection.query(
-    `SELECT * FROM registration WHERE ID = ${id};`,
+    `SELECT * FROM users WHERE ID = ${id};`,
     (err, rows, fields) => {
       if (rows.length === 0) {
         res.send(false);

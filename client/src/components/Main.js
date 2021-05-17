@@ -25,8 +25,8 @@ const img = {
 
 
 const minbox = {
-    width : '100%',
-    height : '50px',
+    width : 'auto',
+    height : 'auto',
     float : 'center',
     margin : 5
     

@@ -10,7 +10,7 @@ import {
 }from 'react-router-dom';
 
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -28,6 +28,13 @@ import { BottomNavigation } from '@material-ui/core';
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 import Counter from '../counter';
 
+
+import MobileStepper from '@material-ui/core/MobileStepper';
+import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined';
+import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
+
+
 const back = { 
   color: ' white',
   marginTop: 5,
@@ -36,6 +43,8 @@ const back = {
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+      align : 'center',
+      backgroundColor:'white'
     },
     menuButton: {
       marginRight: theme.spacing(0),
@@ -45,30 +54,73 @@ const useStyles = makeStyles((theme) => ({
     paper: {
       margin: '10px auto',
       width: '100%',
-      height : '130px'
+      height : '220px'
+    },
+    minbox : {
+      width : '100%',
+      height : '70px'
     },
     name : {
-      width : '100%',
+      width : '200px',
+      height : '30px',
+      fontSize : '23px',
+      margin : '10px 20px 0px',
+      color : '#111111',
+      float : 'left',
+    },
+    star : {
+      width : '200px',
+      height : '20px',
+      fontSize : '20px',
+      margin : '5px 20px',
+      color : '#111111',
+      float : 'left',
+      fontSize : '5px',
+      color : '#FFD324'
+    },
+    share : {
+      float : 'right',
+      color : '#666666',
+      margin : '25px 30px 0px',
+
+    },
+    total : {
+      width : '180px',
       height : '30px',
       fontSize : '20px',
-      margin : '10px 20px 5px',
-      color : '#666666'
+      margin : '15px 20px 0px',
+      color : '#111111',
+      float : 'left',
+    },
+    countext : {
+      width : '180px',
+      height : '30px',
+      fontSize : '20px',
+      margin : '0px 20px 0px',
+      color : '#111111',
+      float : 'left',
     },
     price : {
+      width : '120px',
+      height : '40px',
+      fontSize : '25px',
+      margin : '10px 20px 0px',
+      color : '#111111',
+      float : 'right',
+      fontWeight : 'bold',
+      textAlign : 'right',
+    },
+    title: {
       width : '100px',
       height : '30px',
       fontSize : '20px',
-      margin : '0px 20px',
-      fontWeight : 'bold',
-      color : 'gray'
-    },
-    title: {
-      flexGrow: 1,
+      margin : 'auto 0px auto 100px'
+
     },
     image: {
       margin: '0px auto',
       width: '100%',
-      height: '280px',
+      height: '300px',
       textAlign:'center',
       backgroundColor : 'white'
     },
@@ -76,8 +128,9 @@ const useStyles = makeStyles((theme) => ({
       margin: 'auto',
       display: 'block',
       maxWidth: '100%',
-      maxHeight: '100%',
+      maxHeight: '90%',
     },
+
     table: {
       maxWidth: 414,
     },
@@ -89,21 +142,29 @@ const useStyles = makeStyles((theme) => ({
     numberbar : {
       width : '65px',
       height : '20px',
-      margin : '5px 0px',
       color : '#666666',
       border : '1px solid',
       borderRadius : '20px'
   
   },
   countbox : {
+    width : '70px',
+    height : '30px',
+    margin : '5px 20px',
+    float : 'right'
+  },
+  soo : {
     width : '100px',
     height : '30px',
-    margin : '20px 20px',
-  }
+    margin : '5px 20px',
+    float : 'right',
+    color : '#666666',
+    fontSize : '13px'
+  },
+
  
 
 }));
-
 
 export default function Detail(props){
     
@@ -113,21 +174,27 @@ export default function Detail(props){
     const name = ({props, name})=>{
       console.log(props, name);
     }
+
+    const theme = useTheme();
+    const [activeStep, setActiveStep] = React.useState(0);
+
+    const handleNext = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
+    const handleBack = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
     return(      
       
       <div>     
-
       <AppBar position="static" >
         <Toolbar >
-          
-          
           <IconButton edge="start" className={classes.menuButton}  color="inherit" aria-label="menu">
           <Link to="/"> <ArrowBackIosRoundedIcon style={back}  /></Link>
           </IconButton>
-          <Typography variant="h6" className={classes.title} onClick={()=>{
-            console.log(props.name);
-          }}>
-            
+          <Typography variant="h6" className={classes.title}>
+            상 품 정 보
           </Typography>
           
         </Toolbar>
@@ -135,16 +202,46 @@ export default function Detail(props){
       
       <div className={classes.image}>
       <img className={classes.img} alt="complex" src={props.img} /> 
+
+      <MobileStepper
+      variant="dots"
+      steps={3}
+      position="static"
+      activeStep={activeStep}
+      className={classes.root}
+      nextButton={
+        <Button size="small" onClick={handleNext} disabled={activeStep === 2}/>
+      }
+      backButton={
+        <Button size="small" onClick={handleBack} disabled={activeStep === 0}/>
+      }
+    />
       </div>
 
-      <Paper className= {classes.paper}>  
+      <Paper variant="outlined" className= {classes.paper}>  
+      <div className={classes.minbox}>
       <div className={classes.name}>{props.name}</div>
+      <div className={classes.share}><ShareOutlinedIcon style={{ fontSize: 30 }}/></div>
+      <div className={classes.star}><StarRoundedIcon/><StarRoundedIcon/><StarRoundedIcon/><StarRoundedIcon/><StarOutlineRoundedIcon/></div>
+      </div>
+
+      <div className={classes.minbox}>
+      <div className = {classes.total}> 최종 판매가</div>
       <div className={classes.price}>{props.price} 원</div>
-      <div className={classes.countbox}>
-        <div className={classes.numberbar}><Counter/></div>
+      </div>
+
+      <div className={classes.minbox}>
+      <div className = {classes.countext}> 수량</div>
+      <div className={classes.countbox}><div className={classes.numberbar}><Counter/></div></div>
+      <div className = {classes.countext}/>
+      <div className={classes.soo}>남은수량 : {props.number} 개</div>
       </div>
       </Paper>
-        
+      <Paper style ={{height : 60, textAlign : 'center', padding : 10}}> 
+      상품 정보 <br/>
+      <br/>
+      더 매력적으로 돌아온 {props.name} ! 10% 적립행사
+      </Paper> 
     
       <ListAdd stateRefresh={props.stateRefresh} id={props.id}></ListAdd>
       
