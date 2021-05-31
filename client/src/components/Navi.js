@@ -15,7 +15,7 @@ import MapRoundedIcon from '@material-ui/icons/MapRounded';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 
 //import List from './components/List';
-//import ListApp from './ListApp';
+//import ListApp from '../ListAppN';
 import {
   BrowserRouter as Router,
   Switch,
@@ -53,27 +53,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 function Navi() {
+  
   const classes = useStyles();
   return (
    
     <div>
+      
        <React.Fragment>
       <CssBaseline />
       <Container className={classes.root} maxWidth="lg" disableGutters="true" style={{height:'100vh'}}>
         
       <Link to="/"><ArrowBackIosRoundedIcon className={classes.icons} style={{marginTop: 440, marginLeft:30}}/></Link>
       <Link to="/Location"><LocationOnRoundedIcon className={classes.icons} style={{marginTop: 520, marginLeft:30}} /></Link>
-      <Link to="/smartcart"><ReplayRoundedIcon style={{marginLeft:30, marginTop:600}} className={classes.icons}/></Link>
+      <Link to="/Navi"><ReplayRoundedIcon style={{marginLeft:30, marginTop:600}} className={classes.icons}/></Link>
 
         <Link to="/"><MapRoundedIcon style={{marginLeft:320, marginTop:70}} className={classes.icons}/></Link> 
-        <Link to="/ListApp"><ListRoundedIcon style={{marginLeft:320, marginTop:150}} className={classes.icons}></ListRoundedIcon></Link>
+        <Link to="/ListAppN"><ListRoundedIcon style={{marginLeft:320, marginTop:150}} className={classes.icons}></ListRoundedIcon></Link>
         <Link to="/Basket"><AddShoppingCartRoundedIcon style={{marginLeft:320, marginTop:230}} className={classes.icons}></AddShoppingCartRoundedIcon></Link>
 
       </Container>
       </React.Fragment>
+      
+         
+     
     </div>
   );
+  
 }
+
 
 export default Navi;

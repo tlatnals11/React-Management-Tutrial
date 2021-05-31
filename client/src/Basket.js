@@ -1,9 +1,8 @@
 import { Component } from 'react';
-import List from './components/List';
+import BasketList from './components/BasketList';
 import './App.css';
 import Navi from './components/Navi';
 import App from './App';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
@@ -217,7 +216,7 @@ class Basket extends Component {
   }
 
   callApi = async () => {
-    const response = await fetch('/api/customers/list');
+    const response = await fetch('/api/customers/basket');
     const body = await response.json();
     return body;
   }
@@ -241,20 +240,20 @@ class Basket extends Component {
         return c.p_name.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <List stateRefresh={this.stateRefresh} key={c.barcode} id={c.barcode} image={c.image} p_name={c.p_name} price={c.price} count={c.count}/>
+        return <BasketList stateRefresh={this.stateRefresh} key={c.barcode} id={c.barcode} image={c.image} p_name={c.p_name} price={c.price} count={c.count}/>
       });
     }
 
     const { classes } = this.props;
     const cellList = [" + 더 담으러 가기"]
-    const cellList2 = ["총 57,200원 결제하기"]
+    const cellList2 = ["결제하기"]
     return(
       <Router>
       <div className={classes.root}>
       <Route exact path="/basket">
         {/* 사용자 프로필 부분 */}
         <div className={classes.navigation}> 
-               <Link to="/smartcart"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
+               <Link to="/Navi"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
                <div className={classes.jangbaguni}>장바구니</div>
         </div>
            <div className={classes.line}></div>
@@ -328,7 +327,7 @@ class Basket extends Component {
             <Route exact path="/">
                       <App/>
             </Route>
-            <Route exact path="/smartcart">
+            <Route exact path="/Navi">
               <Navi/>
             </Route>
           

@@ -64,7 +64,7 @@ class ListAdd extends React.Component {
     render() {
         return(
             <div>        
-            <Button fontSize="small" onClick={this.handleClickOpen} variant="contained" color="primary" style={addbar}> 추 가 하 기</Button>
+            <Button fontSize="small" onClick={this.handleClickOpen} variant="outlined" color="secondary" style={addbar}> 추 가 하 기</Button>
             <Dialog open={this.state.open} onClose={this.handleClose}>
                 <DialogTitle onClose={this.handleClose}>
                     알림
@@ -75,8 +75,8 @@ class ListAdd extends React.Component {
                     </Typography>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" color="primary" onClick={(e) => {this.addList(this.props.id)}}arl >추가</Button>
-                    <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+                    <Button variant="contained" color="secondary" onClick={(e) => {this.addList(this.props.id)}}arl >추가</Button>
+                    <Button variant="outlined" color="secondary" onClick={this.handleClose}>닫기</Button>
                 </DialogActions>
             </Dialog>
             </div>
