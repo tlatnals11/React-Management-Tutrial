@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import ListDelete from './ListDelete';
 import Counter from '../counter';
 import BarcodeProc from './BarcodeProc'
-
+//import ListApp from './ListApp';
+//import json, requests
 const box = {
     width : '100%',
     height : '150px',
@@ -61,14 +62,16 @@ const x = {
 }
 
 
-
 class List extends React.Component {
+   
     barcodeInput(){
         var code = prompt("바코드 무엇인가요?"+"");
         alert("장바구니에 해당 상품이 담겼습니다.");
     }
 
-    render(){
+    render(){  
+        
+       
         return(
            <div style={box}> 
                <div><img src={this.props.image} alt="profile" style={img}/></div>
@@ -83,6 +86,7 @@ class List extends React.Component {
                <div style={x}><ListDelete stateRefresh={this.props.stateRefresh} id={this.props.id}/></div>
                
            </div>
+           
         )    
     }
 }

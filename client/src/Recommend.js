@@ -31,8 +31,7 @@ import ListApp from './ListApp';
 import ListAppN from './ListAppN';
 import LoginApp from './LoginApp';
 import Register from './components/Register';
-import Recommend from './Recommend';
-
+import RecommendList from './components/RecommendList';
 
 import {
   BrowserRouter as Router,
@@ -139,7 +138,7 @@ const styles = theme => ({
   }
 });
 
-class App extends Component {
+class Recommend extends Component {
 
   constructor(props){
     super(props);
@@ -178,7 +177,7 @@ class App extends Component {
   }
 
   callApi = async () => {
-    const response = await fetch('/api/customers');
+    const response = await fetch('/api/customers/recommend');
   
     const body = await response.json();
   
@@ -270,64 +269,30 @@ class App extends Component {
   }
   const map = {
     color: ' white',
-    right:'20',
-    bottom:'20',
-    position : 'fixed'
+    marginLeft:'325',
+    marginTop:'350'
   }
   
 
 
-    const cellList1 = ["상품 목록"]
-    
+    const cellList1 = ["당신을 위한 추천상품이에요."]
     return( 
-    
+      
       <div className={classes.root}>
         <Router>
         <Route exact path ="/" >
-        <AppBar position="static">
-             
-          <div>          
-            <div style={title_main} onClick = {() => {console.log("스마트 카트 클릭")}} > 스마트 카트 </div>
-            
-              <Link to ="/login"><div style={login} onClick = {() => {console.log("로그인 클릭")}}>로그인</div></Link>
-              <Link to ="/ListApp"><div style={Checklist} onClick = {() => {console.log("리스트 클릭")}}>리스트</div></Link>
-            
-          </div>  
-          <div style={search}>
-            <div  className={classes.search}>
-              <div className={classes.searchIcon}>
-              <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="상품 검색하기"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                name="searchKeyword"
-                value={this.state.searchKeyword}
-                onChange={this.handleValueChange}
-                
-              /></div>
-            </div>
-          
-      </AppBar>
-       <div className={classes.menu}>
-        <Recommend/>
-        </div>
+        
         <Paper className={classes.paper}>
           <Table className={classes.table}>
             <TableHead>
-              <TableRow>
+              
                 {cellList1.map(c => {
                   return <TableCell className={classes.tableHead}>{c}</TableCell>
                 })}
-                 </TableRow>
+
+               
                  </TableHead>
                  <TableBody>
-                 <div>
-                 <Link to ="/Navi"> <MapRoundedIcon style={map} className={classes.icons}/></Link>
-              </div>
               {this.state.customers ?
                filteredComponents(this.state.customers) :
               <TableRow>
@@ -338,29 +303,9 @@ class App extends Component {
               }
             </TableBody>
           </Table>            
-        </Paper>
-      
-       
-        </Route>
-        <Route exact path="/Navi">
-          <Navi/>
+         </Paper>
         </Route>
 
-        <Route path ="/login">
-              <LoginApp/>
-        </Route>
-
-        <Route path ="/register">
-              <Register/>
-
-        </Route>
-
-
-        <Route path ="/basket">
-              <Basket/>
-        </Route>
-
-        
 
         <Route exact path={`/detail/${this.state.name}`} 
         render={props=><Route.Component {...props} name={this.state.name}/>}>
@@ -375,15 +320,12 @@ class App extends Component {
           <ListAppN/>
           </Route>
 
-          <Route exact path="/Recommend">
-          <Recommend/>
-          </Route>
-
           </Router>
     </div>
+   
   
 
     );
   }
 }
-export default withStyles(styles)(App);
+export default withStyles(styles)(Recommend);

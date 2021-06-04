@@ -253,9 +253,9 @@ class ListAppN extends Component {
         <Link to="/Navi"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
         <Link to="/basket"><AddShoppingCartRoundedIcon className={classes.shopping}/></Link>
         </div>
-        <div className={classes.positioning}>
+        {/* <div className={classes.positioning}> */}
           
-        {/* 사용자 프로필 부분 */}
+        {/* 사용자 프로필 부분
         <div className={classes.userbox}>
           <div className={classes.userimg}/>
           <div className={classes.userinfo}>
@@ -263,7 +263,7 @@ class ListAppN extends Component {
             <div className={classes.userid}>elegant00</div>
       
           </div>
-        </div>
+        </div> */}
         
         <AppBar position="static">
           <Toolbar>
@@ -284,7 +284,7 @@ class ListAppN extends Component {
             </div>
           </Toolbar>
       </AppBar>
-      </div>
+      {/* </div> */}
       
           <Table className={classes.table}>
             

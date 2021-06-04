@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import List from './components/List';
+
 import App from './App';
 import Basket from './Basket';
 import Navi from './components/Navi';
@@ -188,7 +189,8 @@ class ListApp extends Component {
       customers:'',
       completed:0,
       searchKeyword: '',
-      count : 1
+      count : 1,
+      
     }
   }
 
@@ -196,7 +198,8 @@ class ListApp extends Component {
     this.setState({
       customers:'',
       completed: 0,
-      searchKeyword: ''
+      searchKeyword: '',
+      ListData:''
     });
 
     this.callApi()
@@ -214,6 +217,7 @@ class ListApp extends Component {
   callApi = async () => {
     const response = await fetch('/api/customers/list');
     const body = await response.json();
+
     return body;
   }
 
@@ -230,19 +234,22 @@ class ListApp extends Component {
   }
 
   render() {
+    
     const filteredComponents = (data) => {
+      
+      
       data = data.filter((c) => {
         return c.p_name.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <List stateRefresh={this.stateRefresh} key={c.barcode} id={c.barcode} image={c.image} p_name={c.p_name} price={c.price} count={c.count}/>
+        
+        return <List stateRefresh={this.stateRefresh} key={c.barcode} id={c.barcode} image={c.image} p_name={c.p_name} price={c.price} count={c.count} />
+        
       });
 
-     
-
-     
+       
     }
-
+    
     const { classes } = this.props;
     const cellList = [" + 더 담으러 가기"]
     return(
@@ -253,17 +260,17 @@ class ListApp extends Component {
         <Link to="/"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
         <Link to="/basket"><AddShoppingCartRoundedIcon className={classes.shopping}/></Link>
         </div>
-        <div className={classes.positioning}>
+        
           
         {/* 사용자 프로필 부분 */}
-        <div className={classes.userbox}>
+        {/* <div className={classes.userbox}>
           <div className={classes.userimg}/>
           <div className={classes.userinfo}>
             <div className={classes.username}>우아한</div>
             <div className={classes.userid}>elegant00</div>
       
           </div>
-        </div>
+        </div> */}
         
         <AppBar position="static">
           <Toolbar>
@@ -283,8 +290,8 @@ class ListApp extends Component {
               />
             </div>
           </Toolbar>
-      </AppBar>
-      </div>
+        </AppBar>
+      
       
           <Table className={classes.table}>
             

@@ -45,21 +45,6 @@ const  addbar = {
 
 
 const styles = theme => ({
-  radio : {
-    float : 'center',
-    position:'absolute',
-    width:'414px',
-    height:'30px',
-    //right:'30px',
-    backgroundColor: '#C5E0B4',
-    bottom:'1px',
-    borderRadius : '5px',
-    color : '#663211',
-    fontWeight : 'bold',
-    fontSize: '16px',
-    textAlign:'center',
-    paddingTop:'10px'
-  },
   map : {
     width : '100%',
     height : '675px',
@@ -265,7 +250,6 @@ class Navi extends Component {
       searchKeyword: '',
       count : 1,
       option : null,
-      name:'1',
     }
   }
 
@@ -291,7 +275,56 @@ class Navi extends Component {
     return best_item;
   }
   
-  
+  /*최단경로*/
+  /*
+  shortestPath =async (data)=>{
+
+    var spot = [1,1]; //현재 위치 : 초기 설정 1구역 출입구
+    
+
+    //데이터 배열에 집어넣음
+    var data_array = [];
+    data = Object.values(data).filter((c) => {
+      return c.p_name.indexOf(this.state.searchKeyword) > -1;
+    });
+    data.map((c) => {
+      data_array.push(c);
+    });
+
+    
+    //console.log(data_array[0]); //데이터 배열 확인
+
+    //상위 물품 3개 중 현재 구역에 있는 물품이 있는지 확인
+    
+    let isItem = false;
+    let isItem_contents;
+    for(let i=0;i<3;i++){ // 나중에 2개 이하일 시 발생하는 에러 잡기
+        if(parseInt(data_array[i].area) == parseInt(spot[0])){ //만약 spot[0](현재 구역)에 있는 물품이 있다면
+          isItem = true;
+          isItem_contents = data_array[i];
+          break;
+        }
+        isItem=false;
+    }
+    
+    if(isItem){
+      //console.log(isItem_contents);
+    }
+    else{
+      //console.log("없음");
+      //내 구역 내에 물품이 없다면 제일 가까운 곳부터 찾음 or 1위에 있는 물품부터
+
+      //방법1) 가까운 구역의 물품
+      //isItem_contents = this.no1(data_array, spot);
+
+      //방법2) 1위 물품
+
+      
+    }
+
+
+  }*/
+
     
   /*해당 구역 안 물품 리스트 작성*/
   inContents = (arr,spot)=>{
@@ -391,7 +424,6 @@ class Navi extends Component {
 
 
   if(isItem){
-    
     return <NaviTest stateRefresh={this.stateRefresh} p_name={isItem_contents.p_name} p_class_img={isItem_contents.p_class_img}/>
   }
   else{
@@ -404,7 +436,6 @@ class Navi extends Component {
         isItem_contents = this.no1(arr, spot);
         spot[0] = isItem_contents.area;
         spot[1] = isItem_contents.area_area;
-
         return <NaviTest stateRefresh={this.stateRefresh} p_name={isItem_contents.p_name} p_class_img={isItem_contents.p_class_img}/>
       }
       else{ //현재 구역에 물품이 있으면        
@@ -502,8 +533,7 @@ class Navi extends Component {
         
         <div className={classes.bar}>
         <Link to="/"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
-        
-        <div className={classes.radio}>
+        <div>
         <input type="radio" name="radio" id="radio1" value="1" onChange={(e) => this.radioChange(e)} /> 최단 우선
         <input type="radio" name="radio" id="radio2" value="0" onChange={(e) => this.radioChange(e)} /> 최적 우선
       </div>

@@ -32,6 +32,10 @@ app.get('/api/customers', (req, res) => {
   );
 });
 
+
+
+
+
 // app.get('/api/customers/basket', (req, res) => {
 //     connection.query(
 //       "SELECT * FROM product WHERE isDeleted = 0",
@@ -56,6 +60,15 @@ app.get('/api/customers/list', (req, res) => {
 app.get('/api/customers/basket', (req, res) => {
   connection.query(
     "SELECT * FROM product WHERE isBarcoded = 1",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  );
+});
+
+app.get('/api/customers/recommend', (req, res) => {
+  connection.query(
+    "select * from product where isAdded = 0 and p_class in(select p_class from product where isAdded = 1);",
     (err, rows, fields) => {
       res.send(rows);
     }

@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import BasketList from './components/BasketList';
+import ListApp from './ListApp';
 import './App.css';
 import Navi from './components/Navi';
 import App from './App';
@@ -241,19 +242,38 @@ class Basket extends Component {
       });
       return data.map((c) => {
         return <BasketList stateRefresh={this.stateRefresh} key={c.barcode} id={c.barcode} image={c.image} p_name={c.p_name} price={c.price} count={c.count}/>
-      });
+      });   
     }
 
     const { classes } = this.props;
     const cellList = [" + 더 담으러 가기"]
     const cellList2 = ["결제하기"]
+    const total = []
+    const hap = []
+    
+    const totalproc = (data)=>{
+    data = Object.values(data).filter((c) => {
+      return c.p_name.indexOf(this.state.searchKeyword) > -1;
+    });
+    data.map((c) => {
+      total.push(c.price);
+    }); 
+    
+    for(var i=0, sum=0; i<total.length; i++){
+      sum = sum + total[i]
+      hap[0] = sum
+     // console.log(hap)
+    }
+      
+  }
+  
+
     return(
       <Router>
       <div className={classes.root}>
       <Route exact path="/basket">
-        {/* 사용자 프로필 부분 */}
         <div className={classes.navigation}> 
-               <Link to="/Navi"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
+               <Link to="/ListApp"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
                <div className={classes.jangbaguni}>장바구니</div>
         </div>
            <div className={classes.line}></div>
@@ -281,7 +301,7 @@ class Basket extends Component {
           <Table className={classes.table}>
           
             <TableBody>
-           
+            {this.state.customers ? totalproc(this.state.customers) :""}
               {this.state.customers ?
                filteredComponents(this.state.customers) :
               <TableRow>
@@ -302,7 +322,7 @@ class Basket extends Component {
 
                 <div className={classes.cashminbox}>
                     <div className={classes.cashfont}>총 결제 금액</div>
-                    <div className={classes.cashnumber}>57,200원</div>
+                    <div className={classes.cashnumber}>{hap}원</div>
 
                 </div>
 
@@ -327,8 +347,8 @@ class Basket extends Component {
             <Route exact path="/">
                       <App/>
             </Route>
-            <Route exact path="/Navi">
-              <Navi/>
+            <Route exact path="/ListApp">
+              <ListApp/>
             </Route>
           
 
