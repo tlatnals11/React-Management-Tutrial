@@ -107,8 +107,7 @@ const styles = theme => ({
 
   userbox : {
     width : '100%',
-    height : '30px',
-    backgroundColor : 'red'
+    height : '30px'
   },
 
   more : {
@@ -117,8 +116,10 @@ const styles = theme => ({
     margin : '5px 0px',
     fontWeight : 'bold',
     border : '1px solid',
-    color : '#666666',
-    opacity : '70%'
+    color : 'black',
+    
+    opacity : '70%',
+    textDecoration : 'none'
   },
 
   more2 : {
@@ -133,28 +134,24 @@ const styles = theme => ({
     width : '70%'
   },
   navigation : {
-    height : '70px'
+    height : '60px',
+    backgroundColor : '#3F51B5'
 },
 back : {
-    width : '30px',
-    height : '30px',
-    float : 'left',
-    margin : '20px'
+  width : '30px',
+  height : '30px',
+  float : 'left',
+  margin : '15px',
+  color:"white"
 },
 jangbaguni : {
     width : '200px',
     height : '30px',
     float : 'left',
-    margin : '20px 10px 20px 40px',
-    color : '#666666',
+    margin : '15px 10px 15px 40px',
+    color : 'white',
     textAlign : 'center',
-    textWeight : 'bold',
     fontSize : '20px'
-},
-line : {
-    height : '3px',
-    backgroundColor : "#888888",
-    opacity : '30%'
 },
 cashbox : {
     width : '100%',
@@ -247,7 +244,6 @@ class Basket extends Component {
 
     const { classes } = this.props;
     const cellList = [" + 더 담으러 가기"]
-    const cellList2 = ["결제하기"]
     const total = []
     const hap = []
     
@@ -262,10 +258,10 @@ class Basket extends Component {
     for(var i=0, sum=0; i<total.length; i++){
       sum = sum + total[i]
       hap[0] = sum
-     // console.log(hap)
     }
       
   }
+
   
 
     return(
@@ -276,7 +272,6 @@ class Basket extends Component {
                <Link to="/ListApp"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
                <div className={classes.jangbaguni}>장바구니</div>
         </div>
-           <div className={classes.line}></div>
        
         <AppBar position="static" className={classes.root}>
           <Toolbar>
@@ -334,10 +329,11 @@ class Basket extends Component {
 
             </div>
 
-            {cellList2.map(c => { 
-                  return  <Button variant="contained" color="secondary" className={classes.more2} align="center" stateRefresh={this.stateRefresh}>{c}
-                  </Button>
-                      })}
+           
+               <Button variant="contained" color="secondary" className={classes.more2} align="center" stateRefresh={this.stateRefresh}>
+                      총 {hap} 원 결제하기
+              </Button>
+                     
             </TableBody>
               
             

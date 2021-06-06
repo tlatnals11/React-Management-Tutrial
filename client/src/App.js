@@ -221,7 +221,8 @@ class App extends Component {
       float : 'center',
       textAlign : 'center',
       fontWeight: 'bold',
-      color: ' white'
+      color: ' white',
+      
       
   }
 
@@ -286,7 +287,8 @@ class App extends Component {
         <Route exact path ="/" >
         <AppBar position="static">
              
-          <div>          
+          <div>        
+              
             <div style={title_main} onClick = {() => {console.log("스마트 카트 클릭")}} > 스마트 카트 </div>
             
               <Link to ="/login"><div style={login} onClick = {() => {console.log("로그인 클릭")}}>로그인</div></Link>
@@ -320,6 +322,7 @@ class App extends Component {
             <TableHead>
               <TableRow>
                 {cellList1.map(c => {
+                  
                   return <TableCell className={classes.tableHead}>{c}</TableCell>
                 })}
                  </TableRow>
@@ -375,9 +378,7 @@ class App extends Component {
           <ListAppN/>
           </Route>
 
-          <Route exact path="/Recommend">
-          <Recommend/>
-          </Route>
+         
 
           </Router>
     </div>

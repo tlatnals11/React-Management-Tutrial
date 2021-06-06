@@ -146,6 +146,7 @@ const styles = theme => ({
   bar : {
     width : '100%',
     height : '60px',
+    backgroundColor : '#3F51B5'
 
   },
 
@@ -203,7 +204,7 @@ const styles = theme => ({
     height : '30px',
     float : 'left',
     margin : '15px',
-    color : '#1d1d1d'
+    color : 'white'
 },
 shopping : {
   width : '30px',
@@ -216,12 +217,22 @@ list : {
   height : '35px',
   float : 'right',
   margin : '10px 15px',
-  color : '#1d1d1d'
+  color : 'white'
   },
   mapbox : {
     width : '100%',
     height : '600px'
+  },
+  navi : {
+    width : '200px',
+    height : '30px',
+    float : 'left',
+    margin : '15px 10px 15px 40px',
+    color : 'white',
+    textAlign : 'center',
+    fontSize : '20px'
   }
+  
 
 
 });
@@ -275,20 +286,20 @@ class Navi extends Component {
   no1 = (data_array1, spot)=>{ //현재 위치 외 구역에서 가장 가까운 구역이고 가장 최적인 물품 출력
     
     
-    let best_length=1000000; //가장 가까운 물품
-    let best_item;
-    let arrLength;
-   if(data_array1.length<2) arrLength = data_array1.length;
-   else arrLength=2;
-    for(let i=0; i<arrLength; i++){// 나중에 2개 이하일 시 발생하는 에러 잡기
+    let best_length=1000000; //거리 비교 변수
+    let best_item; //가장 가까운 데이터 집어넣는 변수
+    let arrLength; //상위 2개를 뽑아내기 위해 사용하는 변수
+   if(data_array1.length<2) arrLength = data_array1.length; //데이터 길이가 2 미만일 때 오류 방지하기위해 길이를 집어넣음
+   else arrLength=2; // 2로 설정
+    for(let i=0; i<arrLength; i++){
       
-      if(area[0][parseInt(data_array1[i].area)-1][parseInt(spot[0])-1]<best_length){
-        best_length = area[0][parseInt(data_array1[i].area)-1][parseInt(spot[0])-1];
-        best_item = data_array1[i];
+      if(area[0][parseInt(data_array1[i].area)-1][parseInt(spot[0])-1]<best_length){ //현재 위치와 각 데이터 거리 계산,  기준 길이(best_length)보다 짧으면
+        best_length = area[0][parseInt(data_array1[i].area)-1][parseInt(spot[0])-1]; //해당 데이터 길이 입력
+        best_item = data_array1[i]; //해당 데이터 입력
       }
     }
 
-    return best_item;
+    return best_item; //가장 짧은 거리의 데이터 return
   }
   
   
@@ -296,30 +307,30 @@ class Navi extends Component {
   /*해당 구역 안 물품 리스트 작성*/
   inContents = (arr,spot)=>{
     /*해당 구역 물품 모음*/  
-    let isItem_area_contents = [];
+    let isItem_area_contents = []; //해당 구역에 물품들을 입력하는 배열
     for(let a=0; a<arr.length;a++){
-      if(parseInt(spot[0])==parseInt(arr[a].area)){
-        isItem_area_contents.push(arr[a]);
+      if(parseInt(spot[0])==parseInt(arr[a].area)){ //만약 현재 구역에 물품이 있다면 (yes)
+        isItem_area_contents.push(arr[a]); //물품 isItem_area_contents에 입력
       }
     }
-    //console.log(isItem_area_contents);
-    //현재 위치에 물품들이 있다면
-    let best_1;
-    if(isItem_area_contents.lenth!=0){
+    
+    
+    let best_1; //현재 위치에 있는 물품들 중에 가장 우선순위가 높은 물품을 담는 변수
+    if(isItem_area_contents.lenth!=0){ //현재 위치에 물품들이 있다면 (==현재 구역 물품 배열 길이가 0이 아니라면)
       //우선 순위 높은 것을 담기
-      let best_1_prio=-1;    
-      let prio;
+      let best_1_prio=-1; //우선 순위 비교 변수
+      let prio; //우선 순위 담는 함수
       for(let a=0;a<isItem_area_contents.length;a++){
-        prio = parseInt(isItem_area_contents[a].fresh)+parseInt(isItem_area_contents[a].soft);
+        prio = parseInt(isItem_area_contents[a].fresh)+parseInt(isItem_area_contents[a].soft); //isItem_area[a]의 우선 순위 계산 후 입력
         
-        if(best_1_prio<prio){
+        if(best_1_prio<prio){ //만약 우선순위가 더 클 때 
           
-          best_1_prio = prio;
-          best_1 = isItem_area_contents[a];
+          best_1_prio = prio; // 우선순위 입력
+          best_1 = isItem_area_contents[a]; //해당 데이터 입력
         }
       }
       //console.log(best_1);
-      return(best_1);
+      return(best_1); //제일 우선 순위가 높은 데이터 return
       
     }
     else{ //현재 위치에 물품이 없음 => null 출력
@@ -330,7 +341,7 @@ class Navi extends Component {
   /*알고리즘*/
   
   priority = (data)=>{ 
-    var INF = 10000000;
+    
 
     var area=[[
       [0,3,4], //전체 구역
@@ -359,48 +370,40 @@ class Navi extends Component {
  
    var spot = [1,1]; //현재 위치 : 초기 설정 1구역 출입구
    var arr = [];
-   var areaCount = [0,0,0];
-   var bestList = [];
-   var soft = false;
 
-   data = Object.values(data).filter((c) => {
+   data = Object.values(data).filter((c) => { //리스트 데이터 담아와 data 변수에 저장
      return c.p_name.indexOf(this.state.searchKeyword) > -1;
    });
-   data.map((c) => {
+   data.map((c) => {  //data 변수에 있는 데이터들을 arr 배열에 저장
      arr.push(c);
    });   
 
-   if(arr.length==0) return <NaviTest stateRefresh={this.stateRefresh} p_name="x" p_class_img="https://i.postimg.cc/MTtVfy7c/image.png"/>  //리스트에 아무것도 없을 때 출력하는 이미지
+   //만약 배열에 데이터가 없으면(리스트에 담은 물품이 없으면) '물품없음이미지' 뜨게 만듦
+   if(arr.length==0) return <NaviTest stateRefresh={this.stateRefresh} p_name="x" p_class_img="https://i.postimg.cc/MTtVfy7c/image.png"/>  //리스트에 아무것도 없을 때 출력하는 이미지  
 
-   let isItem = false; 
-   let isItem_contents; 
-   let arrLength;
-   if(arr.length<2) arrLength = arr.length;
-   else arrLength=2;
+   if(parseInt(this.state.option)){ //최단 경로
 
+    let isItem = false; // 현재 위치 구역 내에 물품이 있는지 확인하는 bool
+    let isItem_contents; // bool이 true로 바뀌는 물품을 집어넣음(현재 위치 구역 내에 물품)
+    let arrLength; //최적을 고려하여 상위 2개만 비교하기위한 길이 함수
+    if(arr.length<2) arrLength = arr.length;
+    else arrLength=2;
    
-   for(let i=0;i<arrLength;i++){ 
-    
-      if(parseInt(arr[i].area) == parseInt(spot[0])){ //만약 spot[0](현재 구역)에 있는 물품이 있다면
-            isItem = true;
-            isItem_contents = arr[i];
-            break;
-          }
-          isItem=false;
-   }
-
-
-  if(isItem){
-    
-    return <NaviTest stateRefresh={this.stateRefresh} p_name={isItem_contents.p_name} p_class_img={isItem_contents.p_class_img}/>
-  }
-  else{
-    if(parseInt(this.state.option)){ //최단 경로
-      
+    for(let i=0;i<arrLength;i++){       
+        if(parseInt(arr[i].area) == parseInt(spot[0])){ //만약 spot[0](현재 구역)에 있는 물품이 있다면
+              isItem = true;
+              isItem_contents = arr[i];
+              break;
+            }
+            isItem=false;
+    }
+    if(isItem){  
+      return <NaviTest stateRefresh={this.stateRefresh} p_name={isItem_contents.p_name} p_class_img={isItem_contents.p_class_img}/>
+    }
+    else{      
       let best_1 = this.inContents(arr,spot); //현재 구역 내에 있는 최적 물품 위치 
 
-      if(best_1==null){ //현재 구역에 물품이 없으면(최적 경로와 동일)
-         
+      if(best_1==null){ //현재 구역에 물품이 없으면 제일 가까운 구역에 물품이 있는지 알아보기      
         isItem_contents = this.no1(arr, spot);
         spot[0] = isItem_contents.area;
         spot[1] = isItem_contents.area_area;
@@ -414,21 +417,27 @@ class Navi extends Component {
           return <NaviTest stateRefresh={this.stateRefresh} p_name="x" p_class_img="https://i.postimg.cc/MTtVfy7c/image.png"/>          
         }
       }
-
     }
+    
+  }
+    
+    
     else{ // 가까운 구역의 물품 찾기 (최적 경로)
-     
+      return <NaviTest stateRefresh={this.stateRefresh} p_name={arr[0].p_name} p_class_img={arr[0].p_class_img}/>
+
+      /*
       isItem_contents = this.no1(arr, spot);
       spot[0] = isItem_contents.area;
       spot[1] = isItem_contents.area_area;
       return <NaviTest stateRefresh={this.stateRefresh} p_name={isItem_contents.p_name} p_class_img={isItem_contents.p_class_img}/>
+      */
     }
 
   }
 
    
 
- }
+ 
  
 
 
@@ -507,6 +516,9 @@ class Navi extends Component {
         <input type="radio" name="radio" id="radio1" value="1" onChange={(e) => this.radioChange(e)} /> 최단 우선
         <input type="radio" name="radio" id="radio2" value="0" onChange={(e) => this.radioChange(e)} /> 최적 우선
       </div>
+
+        <div className={classes.navi}>경로안내</div>
+
         <Link to="/ListAppN"><ListRoundedIcon className={classes.list}></ListRoundedIcon></Link>
         </div>
 

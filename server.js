@@ -33,18 +33,6 @@ app.get('/api/customers', (req, res) => {
 });
 
 
-
-
-
-// app.get('/api/customers/basket', (req, res) => {
-//     connection.query(
-//       "SELECT * FROM product WHERE isDeleted = 0",
-//       (err, rows, fields) => {
-//         res.send(rows);
-//       }
-//     );
-// });
-
 app.get('/api/customers/list', (req, res) => {
   connection.query(
     "SELECT *FROM product group by p_name HAVING isAdded = 1 and isDeleted = 0 ORDER BY sum(soft+fresh) desc",

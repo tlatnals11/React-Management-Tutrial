@@ -29,8 +29,10 @@ import Navi from './components/Navi';
 import List from './components/List';
 import ListApp from './ListApp';
 import ListAppN from './ListAppN';
+import App from './App';
 import LoginApp from './LoginApp';
 import Register from './components/Register';
+
 import RecommendList from './components/RecommendList';
 
 import {
@@ -203,9 +205,7 @@ class Recommend extends Component {
         return c.p_name.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return  < Link to={`/detail/${c.p_name}`} onClick={()=>{
-          this.state.name = c.p_name; this.state.img=c.image; this.state.price=c.price; this.state.id = c.barcode; this.state.number = c.number;
-        }}><Main stateRefresh={this.stateRefresh} key={c.p_name} p_name={c.p_name}  image={c.image} price={c.price}/></Link>
+        return  <Main stateRefresh={this.stateRefresh} key={c.p_name} p_name={c.p_name}  image={c.image} price={c.price}/>
       });
     }
     const { classes } = this.props;
@@ -307,10 +307,7 @@ class Recommend extends Component {
         </Route>
 
 
-        <Route exact path={`/detail/${this.state.name}`} 
-        render={props=><Route.Component {...props} name={this.state.name}/>}>
-          <Detail name={this.state.name} img={this.state.img} price={this.state.price} number={this.state.number} stateRefresh={this.stateRefresh} id={this.state.id}/>
-        </Route>
+        
 
         <Route exact path="/ListApp">
           <ListApp/>
@@ -319,6 +316,8 @@ class Recommend extends Component {
         <Route exact path="/ListAppN">
           <ListAppN/>
           </Route>
+
+      
 
           </Router>
     </div>

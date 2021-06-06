@@ -9,18 +9,17 @@ const box = {
 const img = {
     maxWidth : '100%',    
     maxHeight : '80vh',
-    float : 'center',
+    float : 'left',
     color : '#888888',
     overflow : 'hidden',
     height : '100%',
-    width: 'auto',
-    marginLeft:'20px',
-    marginTop:'10px 5px'
+    marginLeft:'30px',
+    marginTop:'10px'
     
 
 }
 const title = {
-    width:'88%',
+    width:'90%',
     height:'40px',
     textAlign:'center',
     fontSize:'1.1em',
@@ -33,6 +32,25 @@ const title = {
 
 
 }
+
+const box_ListTest={
+    width:'100%',
+    height : '580px',
+    textAlign:'center',
+    
+}
+
+const img_ListTest = {
+    maxWidth : '100%',    
+    maxHeight : '80vh',
+    
+    color : '#888888',
+    overflow : 'hidden',
+    height : '100%',
+    
+    
+
+}
 class NaviTest extends React.Component {
     render(){
         
@@ -43,6 +61,16 @@ class NaviTest extends React.Component {
                    <img src={this.props.p_class_img} alt="profile" style={img}/>
                 </div>
         )    
+    }
+}
+
+export class ListTest extends React.Component{
+    render(){
+        return(
+            <div style={box_ListTest}>                  
+                   <img style={img_ListTest} src={this.props.p_class_img} alt="profile"/>
+                </div>
+        )
     }
 }
 

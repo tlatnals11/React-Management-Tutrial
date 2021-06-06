@@ -1,9 +1,7 @@
 import { Component } from 'react';
 import List from './components/List';
-
 import App from './App';
 import Basket from './Basket';
-import Navi from './components/Navi';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
@@ -16,19 +14,19 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
+import {ListTest} from './components/NaviTest';
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom';
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
-import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
-
-
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import { ExitToApp } from '@material-ui/icons';
 
 const styles = theme => ({
   root : {
-    width : '100%'
+    width : '100%',
   },
   menu : {
     marginTop: 15,
@@ -111,7 +109,7 @@ const styles = theme => ({
   bar : {
     width : '100%',
     height : '60px',
-
+    backgroundColor : '#3F51B5'
   },
 
   userbox : {
@@ -168,14 +166,23 @@ const styles = theme => ({
     height : '30px',
     float : 'left',
     margin : '15px',
-    color:"#000"
+    color:"white"
 },
 shopping : {
   width : '30px',
   height : '30px',
   float : 'right',
   margin : '15px',
-  color:"#000"
+  color:"white"
+},
+list : {
+  width : '200px',
+  height : '30px',
+  float : 'left',
+  margin : '15px 10px 15px 40px',
+  color : 'white',
+  textAlign : 'center',
+  fontSize : '20px'
 }
 
 
@@ -190,16 +197,21 @@ class ListApp extends Component {
       completed:0,
       searchKeyword: '',
       count : 1,
-      
+      array : [],
+      id : ''
     }
+  }
+  spaceImg=(e)=>{
+    let len = e.length;
+    if(len==0)  return <ListTest stateRefresh={this.stateRefresh} p_name="x" p_class_img="https://i.postimg.cc/MTtVfy7c/image.png"/>  //리스트에 아무것도 없을 때 출력하는 이미지  
+    else return <div></div>
   }
 
   stateRefresh = () => {
     this.setState({
       customers:'',
       completed: 0,
-      searchKeyword: '',
-      ListData:''
+      searchKeyword: ''
     });
 
     this.callApi()
@@ -217,7 +229,6 @@ class ListApp extends Component {
   callApi = async () => {
     const response = await fetch('/api/customers/list');
     const body = await response.json();
-
     return body;
   }
 
@@ -232,24 +243,18 @@ class ListApp extends Component {
     nextState[e.target.name] = e.target.value;
     this.setState(nextState);
   }
-
+  
   render() {
-    
     const filteredComponents = (data) => {
-      
-      
       data = data.filter((c) => {
         return c.p_name.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        
-        return <List stateRefresh={this.stateRefresh} key={c.barcode} id={c.barcode} image={c.image} p_name={c.p_name} price={c.price} count={c.count} />
-        
+        return <List stateRefresh={this.stateRefresh} key={c.barcode} id={c.barcode} image={c.image} p_name={c.p_name} price={c.price} count={c.count}/>
       });
-
-       
     }
     
+
     const { classes } = this.props;
     const cellList = [" + 더 담으러 가기"]
     return(
@@ -258,12 +263,13 @@ class ListApp extends Component {
         <Route exact path="/ListApp">
         <div className={classes.bar}>
         <Link to="/"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
-        <Link to="/basket"><AddShoppingCartRoundedIcon className={classes.shopping}/></Link>
+        <div className={classes.list}>리스트</div>
+        <Link to="/basket"><ShoppingCartOutlinedIcon className={classes.shopping}/></Link>
         </div>
         
           
-        {/* 사용자 프로필 부분 */}
-        {/* <div className={classes.userbox}>
+        {/* 사용자 프로필 부분
+        <div className={classes.userbox}>
           <div className={classes.userimg}/>
           <div className={classes.userinfo}>
             <div className={classes.username}>우아한</div>
@@ -290,15 +296,14 @@ class ListApp extends Component {
               />
             </div>
           </Toolbar>
-        </AppBar>
-      
+      </AppBar>
+     
       
           <Table className={classes.table}>
-            
+
             <TableBody>
-           
               {this.state.customers ?
-               filteredComponents(this.state.customers) :
+               filteredComponents(this.state.customers):
               <TableRow>
                 
                 <TableCell colSpan="6" align="center">
@@ -307,6 +312,7 @@ class ListApp extends Component {
                 
               </TableRow>
               }
+              {this.spaceImg(this.state.customers)}
               {cellList.map(c => { 
                   return  <Link to="/"><Button variant="contained" color="primary" className={classes.more} align="center" stateRefresh={this.stateRefresh}>{c}
                   </Button></Link>
@@ -316,14 +322,12 @@ class ListApp extends Component {
             </Table>  
             </Route>
           
-          <Route exact path="/" >   
+          <Route path="/" exact>   
           <App/>
-          </Route>           
-          
-          <Route exact path="/basket" >   
+          </Route> 
+          <Route path="/basket" exact>   
           <Basket/>
           </Route> 
-
           </Router>
     </div>
 

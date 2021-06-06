@@ -15,13 +15,14 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
+import {ListTest} from './components/NaviTest';
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom';
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
-import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 
 
 
@@ -110,6 +111,7 @@ const styles = theme => ({
   bar : {
     width : '100%',
     height : '60px',
+    backgroundColor : '#3F51B5'
 
   },
 
@@ -167,18 +169,29 @@ const styles = theme => ({
     height : '30px',
     float : 'left',
     margin : '15px',
-    color:"#000"
+    color:"white"
 },
 shopping : {
   width : '30px',
   height : '30px',
   float : 'right',
   margin : '15px',
-  color:"#000"
+  color:"white"
+},
+list : {
+  width : '200px',
+  height : '30px',
+  float : 'left',
+  margin : '15px 10px 15px 40px',
+  color : 'white',
+  textAlign : 'center',
+  fontSize : '20px'
 }
 
 
 });
+
+
 
 class ListAppN extends Component {
 
@@ -190,6 +203,11 @@ class ListAppN extends Component {
       searchKeyword: '',
       count : 1
     }
+  }
+  spaceImg=(e)=>{
+    let len = e.length;
+    if(len==0)  return <ListTest stateRefresh={this.stateRefresh} p_name="x" p_class_img="https://i.postimg.cc/MTtVfy7c/image.png"/>  //리스트에 아무것도 없을 때 출력하는 이미지  
+    else return <div></div>
   }
 
   stateRefresh = () => {
@@ -237,12 +255,12 @@ class ListAppN extends Component {
       return data.map((c) => {
         return <List stateRefresh={this.stateRefresh} key={c.barcode} id={c.barcode} image={c.image} p_name={c.p_name} price={c.price} count={c.count}/>
       });
-
+      
      
 
      
     }
-
+    
     const { classes } = this.props;
     const cellList = [" + 더 담으러 가기"]
     return(
@@ -251,9 +269,10 @@ class ListAppN extends Component {
         <Route exact path="/ListAppN">
         <div className={classes.bar}>
         <Link to="/Navi"><ArrowBackIosRoundedIcon className={classes.back}/></Link>
-        <Link to="/basket"><AddShoppingCartRoundedIcon className={classes.shopping}/></Link>
+        <div className={classes.list}>리스트</div>
+        <Link to="/basket"><ShoppingCartOutlinedIcon className={classes.shopping}/></Link>
         </div>
-        {/* <div className={classes.positioning}> */}
+       
           
         {/* 사용자 프로필 부분
         <div className={classes.userbox}>
@@ -263,8 +282,8 @@ class ListAppN extends Component {
             <div className={classes.userid}>elegant00</div>
       
           </div>
-        </div> */}
-        
+        </div>
+         */}
         <AppBar position="static">
           <Toolbar>
             <div className={classes.search}>
@@ -284,26 +303,22 @@ class ListAppN extends Component {
             </div>
           </Toolbar>
       </AppBar>
-      {/* </div> */}
+      
       
           <Table className={classes.table}>
             
             <TableBody>
            
-              {this.state.customers ?
+              {
+               this.state.customers?
                filteredComponents(this.state.customers) :
-              <TableRow>
-                
-                <TableCell colSpan="6" align="center">
-                  <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
-                </TableCell>
-                
-              </TableRow>
+               <div></div>
               }
+              {this.spaceImg(this.state.customers)}
               {cellList.map(c => { 
                   return  <Link to="/"><Button variant="contained" color="primary" className={classes.more} align="center" stateRefresh={this.stateRefresh}>{c}
                   </Button></Link>
-                      })}
+              })}
             
             </TableBody> 
             </Table>  
