@@ -289,7 +289,7 @@ class App extends Component {
              
           <div>        
               
-            <div style={title_main} onClick = {() => {console.log("스마트 카트 클릭")}} > 스마트 카트 </div>
+            <div style={title_main} onClick = {() => {console.log("스마트 카트 클릭")}} > 엘레강스 </div>
             
               <Link to ="/login"><div style={login} onClick = {() => {console.log("로그인 클릭")}}>로그인</div></Link>
               <Link to ="/ListApp"><div style={Checklist} onClick = {() => {console.log("리스트 클릭")}}>리스트</div></Link>
